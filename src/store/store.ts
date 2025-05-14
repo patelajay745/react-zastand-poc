@@ -17,14 +17,17 @@ export interface HabitState {
     addHabit: (name: string, frequency: FrequencyType) => void,
     removeHabit: (id: string) => void,
     toggleHabit: (id: string, date: string) => void
-    // isLoading: boolean,
-    // error: string | null
+    fetchHabit: () => Promise<void>
+    isLoading: boolean,
+    error: string | null
 }
 
 const useHabitStore = create<HabitState>()(
     persist(
         (set) => ({
             habits: [],
+            isLoading: false,
+            error: null,
             addHabit: (name, frequency) => set((state) => {
                 return {
                     habits: [...state.habits, { id: uuidv4(), name, frequency, completedDates: [], createdAt: new Date().toISOString() }]
@@ -49,7 +52,8 @@ const useHabitStore = create<HabitState>()(
                 return {
                     habits: [...state.habits]
                 }
-            })
+            }),
+            fetchHabit: async () => { }
 
         }
         ),
